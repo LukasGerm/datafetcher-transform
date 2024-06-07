@@ -1,0 +1,16 @@
+{
+  "name": "datafetcher-transform",
+  "packageManager": "pnpm@8.6.3",
+  "version": "0.1.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [
+    "swc-plugin"
+  ],
+  "main": "target/wasm32-wasi/release/datafetcher-transform.wasm",
+  "scripts": {
+    "prepack": "cargo build --release --target wasm32-wasi"
+  },
+  "files": []
+}
