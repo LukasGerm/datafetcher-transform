@@ -2,23 +2,51 @@
  * https://astexplorer.net/#/gist/e931bbd1350f930ec594e101d6a9a2b7/c992bb3545f0749cf34e4a90e3fdd734894f674e outcome
  */
 
-#![allow(clippy::not_unsafe_ptr_arg_deref)]
-use swc_core::{
-    ecma::{ast::Program, visit::FoldWith},
-    plugin::{plugin_transform, proxies::TransformPluginProgramMetadata},
+use swc_core::ecma::{
+    ast::Program,
+    transforms::testing::test_inline,
+    visit::{as_folder, FoldWith, VisitMut},
 };
+use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
 
-#[plugin_transform]
-fn swc_plugin(program: Program, data: TransformPluginProgramMetadata) -> Program {
-    let config = serde_json::from_str::<Option<datafetcher_transform::Config>>(
-        &data
-            .get_transform_plugin_config()
-            .expect("failed to get plugin config for react-remove-properties"),
-    )
-    .expect("invalid packages")
-    .unwrap_or(datafetcher_transform::Config::All(true));
+pub struct TransformVisitor;
 
-    program.fold_with(&mut datafetcher_transform::datafetcher_transform(
-        config,
-    ))
+impl VisitMut for TransformVisitor {
+    // Implement necessary visit_mut_* methods for actual custom transform.
+    // A comprehensive list of possible visitor methods can be found here:
+    // https://rustdoc.swc.rs/swc_ecma_visit/trait.VisitMut.html
 }
+
+/// An example plugin function with macro support.
+/// `plugin_transform` macro interop pointers into deserialized structs, as well
+/// as returning ptr back to host.
+///
+/// It is possible to opt out from macro by writing transform fn manually
+/// if plugin need to handle low-level ptr directly via
+/// `__transform_plugin_process_impl(
+///     ast_ptr: *const u8, ast_ptr_len: i32,
+///     unresolved_mark: u32, should_enable_comments_proxy: i32) ->
+///     i32 /*  0 for success, fail otherwise.
+///             Note this is only for internal pointer interop result,
+///             not actual transform result */`
+///
+/// This requires manual handling of serialization / deserialization from ptrs.
+/// Refer swc_plugin_macro to see how does it work internally.
+#[plugin_transform]
+pub fn process_transform(program: Program, _metadata: TransformPluginProgramMetadata) -> Program {
+    program.fold_with(&mut as_folder(TransformVisitor))
+}
+
+// An example to test plugin transform.
+// Recommended strategy to test plugin's transform is verify
+// the Visitor's behavior, instead of trying to run `process_transform` with mocks
+// unless explicitly required to do so.
+test_inline!(
+    Default::default(),
+    |_| as_folder(TransformVisitor),
+    boo,
+    // Input codes
+    r#"console.log("transform");"#,
+    // Output codes after transformed with plugin
+    r#"console.log("transform");"#
+);

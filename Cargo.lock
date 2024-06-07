@@ -39,19 +39,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "ahash"
-version = "0.8.11"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e89da841a80418a9b391ebaea17f5c112ffaaa96f621d2c285b5174da76b9011"
-dependencies = [
- "cfg-if",
- "getrandom",
- "once_cell",
- "version_check",
- "zerocopy",
-]
-
-[[package]]
 name = "aho-corasick"
 version = "1.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -276,51 +263,17 @@ dependencies = [
 ]
 
 [[package]]
-name = "dashmap"
-version = "5.5.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "978747c1d849a7d2ee5e8adc0159961c48fb7e5db2f06af6723b80123bb53856"
-dependencies = [
- "cfg-if",
- "hashbrown 0.14.5",
- "lock_api",
- "once_cell",
- "parking_lot_core",
-]
-
-[[package]]
 name = "data-encoding"
 version = "2.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e8566979429cf69b49a5c740c60791108e86440e8be149bbea4fe54d2c32d6e2"
 
 [[package]]
-name = "datafetcher_transform"
+name = "datafetcher-transform"
 version = "0.1.0"
 dependencies = [
- "datafetcher_transform 0.1.1",
  "serde",
- "serde_json",
- "swc_atoms",
- "swc_common",
  "swc_core",
- "swc_ecma_ast",
- "swc_ecma_utils",
- "swc_ecma_visit",
- "swc_plugin_macro",
- "tracing",
-]
-
-[[package]]
-name = "datafetcher_transform"
-version = "0.1.1"
-dependencies = [
- "serde",
- "swc_atoms",
- "swc_cached",
- "swc_common",
- "swc_ecma_ast",
- "swc_ecma_visit",
 ]
 
 [[package]]
@@ -448,7 +401,7 @@ version = "0.12.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8a9ee70c43aaf417c914396645a0fa852624801b24ebb7ae78fe8272889ac888"
 dependencies = [
- "ahash 0.7.8",
+ "ahash",
 ]
 
 [[package]]
@@ -1259,20 +1212,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_cached"
-version = "0.3.20"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "83406221c501860fce9c27444f44125eafe9e598b8b81be7563d7036784cd05c"
-dependencies = [
- "ahash 0.8.11",
- "anyhow",
- "dashmap",
- "once_cell",
- "regex",
- "serde",
-]
-
-[[package]]
 name = "swc_common"
 version = "0.33.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1306,9 +1245,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.92.11"
+version = "0.93.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1ff4628e2d0664da05c1b75ca88e3ba1904ffe6cdab7e9b49bab23609be9b466"
+checksum = "752e3678a204278b79e726a9f2439da3056ef637c26a4245f5be51f481688f3d"
 dependencies = [
  "once_cell",
  "swc_atoms",
@@ -2038,23 +1977,3 @@ name = "yansi"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "09041cd90cf85f7f8b2df60c646f853b7f535ce68f85244eb6731cf89fa498ec"
-
-[[package]]
-name = "zerocopy"
-version = "0.7.34"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ae87e3fcd617500e5d106f0380cf7b77f3c6092aae37191433159dda23cfb087"
-dependencies = [
- "zerocopy-derive",
-]
-
-[[package]]
-name = "zerocopy-derive"
-version = "0.7.34"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "15e934569e47891f7d9411f1a451d947a60e000ab3bd24fbb970f000387d1b3b"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 2.0.66",
-]
