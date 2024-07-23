@@ -1,0 +1,9 @@
+{
+  "name": "datafetcher_transform",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "datafetcher_transform.wasm",
+  "scripts": {
+    "prepack": "cargo build-wasi --release && cp ../target/wasm32-wasi/release/datafetcher_transform.wasm ."
+  }
+}

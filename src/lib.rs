@@ -2,21 +2,25 @@
  * https://astexplorer.net/#/gist/e931bbd1350f930ec594e101d6a9a2b7/c992bb3545f0749cf34e4a90e3fdd734894f674e outcome
  */
 
-use swc_core::ecma::{
-    ast::Program,
+use swc_core::{common::Spanned, ecma::{
+    ast::*,
     transforms::testing::test_inline,
-    visit::{as_folder, FoldWith, VisitMut},
-};
+    visit::{as_folder, FoldWith, VisitMut, VisitMutWith},
+}};
 use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
+
 
 pub struct TransformVisitor;
 
 impl VisitMut for TransformVisitor {
-    // Implement necessary visit_mut_* methods for actual custom transform.
-    // A comprehensive list of possible visitor methods can be found here:
-    // https://rustdoc.swc.rs/swc_ecma_visit/trait.VisitMut.html
+    fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
+        e.visit_mut_children_with(self);
+ 
+        if e.op == op!("===") {
+            e.left = Box::new(Ident::new("kdy1".into(), e.left.span()).into());
+        }
+    }
 }
-
 /// An example plugin function with macro support.
 /// `plugin_transform` macro interop pointers into deserialized structs, as well
 /// as returning ptr back to host.
